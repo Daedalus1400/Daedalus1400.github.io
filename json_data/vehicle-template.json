@@ -1,0 +1,46 @@
+{
+	"FileModelVersion": {
+		"Major":1,
+		"Minor":0
+	},
+	"Name":"template",
+	"Version":0,
+	"SavedTotalBlockCount":0,
+	"ContainedMaterialCost":0,
+	"ItemDictionary": {
+	},
+	"Blueprint": {
+		"ContainedMaterialCost":0,
+		"BLP":[],
+		"BLR":[],
+		"BP1":null,
+		"BP2":null,
+		"BCI":[],
+		"BEI":null,
+		"BlockData":"",
+		"designChanged":false,
+		"blueprintVersion":0,
+		"blueprintName":"template",
+		"SerialisedInfo": {
+			"JsonDictionary":{},
+			"IsEmpty":true
+		},
+		"Name":null,
+		"ItemNumber":0,
+		"LocalPosition":"0,0,0",
+		"LocalRotation":"0,0,0,0",
+		"ForceId":0,
+		"TotalBlockCount":0,
+		"MaxCords":"0,0,0",
+		"MinCords":"0,0,0",
+		"BlockIds":[],
+		"BlockState":null,
+		"AliveCount":0,
+		"BlockStringData":[],
+		"BlockStringDataIds":[],
+		"GameVersion":null,
+		"PersistentSubObjectIndex":0,
+		"PersistentBlockIndex":4,
+		"BlockCount":0
+	}
+}
