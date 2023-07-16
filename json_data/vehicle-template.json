@@ -13,6 +13,7 @@
 		"ContainedMaterialCost":0,
 		"BLP":[],
 		"BLR":[],
+		"SCs":[],
 		"BP1":null,
 		"BP2":null,
 		"BCI":[],
@@ -40,7 +41,8 @@
 		"BlockStringDataIds":[],
 		"GameVersion":null,
 		"PersistentSubObjectIndex":0,
-		"PersistentBlockIndex":4,
-		"BlockCount":0
+		"PersistentBlockIndex":0,
+		"BlockCount":0,
+		"BlockState":"=0,0"
 	}
 }

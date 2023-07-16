@@ -1,17 +1,20 @@
 {
 	"blockDictionary":{
 		"metal": {
-			"1x1": {
+			"beam1x1": {
+				"key":"564",
 				"hash":"ab699540-efc8-4592-bc97-204f6a874b3a"
 			}
 		},
 		"lightAlloy": {
-			"1x1": {
+			"beam1x1": {
+				"key":"563",
 				"hash":"3cc75979-18ac-46c4-9a5b-25b327d99410"
 			}
 		},
 		"heavyArmor": {
-			"1x1": {
+			"beam1x1": {
+				"key":"560",
 				"hash":"0c03433e-8947-4e7d-9dec-793526fe06d1"
 			}
 		}
