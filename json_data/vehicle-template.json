@@ -11,6 +11,7 @@
 	},
 	"Blueprint": {
 		"ContainedMaterialCost":0,
+		"BLP":[],
 		"BLR":[],
 		"BP1":null,
 		"BP2":null,
