@@ -8,7 +8,30 @@ var minY = 0;
 var maxZ = 0;
 var minZ = 0;
 
-LoadJSONFile("/json_data/vehicle-template.json", LoadTemplateCallback)
+LoadTemplateAndDictionary();
+
+function GenerateBlueprint() {
+	if (template == null) {
+		throw new Error("Blueprint template not loaded.");
+		return;
+	} else if (dictionary == null) {
+		throw new Error("Block dictionary not loaded.");
+		return;
+	}
+	maxX = 0;
+	minX = 0;
+	maxY = 0;
+	minY = 0;
+	maxZ = 0;
+	minZ = 0;
+	var fileName = document.getElementById("fileNameInput").value;
+	GenerateTestVehicle(fileName);
+}
+
+function LoadTemplateAndDictionary() {
+	LoadJSONFile("/json_data/vehicle-template.json", LoadTemplateCallback)
+	LoadJSONFile("/json_data/block-dictionary.json", LoadDictionaryCallback)
+}
 
 async function LoadJSONFile(filePath, callback) {
 	const response = await fetch(filePath);
@@ -21,7 +44,6 @@ function LoadTemplateCallback(templateJSON) {
 		console.log("Error loading blueprint template");
 	} else {
 		template = templateJSON;
-		LoadJSONFile("/json_data/block-dictionary.json", LoadDictionaryCallback);
 	}
 }
 
@@ -30,12 +52,13 @@ function LoadDictionaryCallback(dictionaryJSON) {
 		console.log("Error loading block dictionary");
 	} else {
 		dictionary = dictionaryJSON.blockDictionary;
-		GenerateTestVehicle();
 	}
 }
 
-function GenerateTestVehicle() {
+function GenerateTestVehicle(fileName = "unnamed") {
 	var vehicle = JSON.parse(JSON.stringify(template));
+	vehicle.Name = fileName;
+	vehicle.Blueprint.blueprintName = fileName;
 	vehicle.ItemDictionary[dictionary.metal.beam1x1.key] = dictionary.metal.beam1x1.hash;
 	vehicle.ItemDictionary[dictionary.lightAlloy.beam1x1.key] = dictionary.lightAlloy.beam1x1.hash;
 	vehicle.ItemDictionary[dictionary.heavyArmor.beam1x1.key] = dictionary.heavyArmor.beam1x1.hash;
@@ -46,7 +69,26 @@ function GenerateTestVehicle() {
 	PlaceBlock(vehicle, [1,1,0], dictionary.metal.beam1x1.key);
 	PlaceBlock(vehicle, [2,1,0], dictionary.metal.beam1x1.key);
 	SetBlueprintExtents(vehicle);
-	console.log(JSON.stringify(vehicle));
+	SaveBlueprint(vehicle);
+}
+
+function SaveBlueprint(blueprintJSON) {
+	var file = new Blob([JSON.stringify(blueprintJSON)], {type: "application/json",})
+	var fileName = String(blueprintJSON.Name + ".blueprint")
+	if (window.navigator.msSaveOrOpenBlob) {
+		window.navigator.msSaveOrOpenBlob(file, fileName);
+	} else {
+		var a = document.createElement("a"),
+			url = URL.createObjectURL(file);
+		a.href = url;
+		a.download = fileName;
+		document.body.appendChild(a);
+		a.click();
+		setTimeout(function() {
+			document.body.removeChild(a);
+			window.URL.revokeObjectURL(url);
+		}, 0)
+	}
 }
 
 function PlaceBlock(blueprint, position, blockType, rotation = 0, color = 0) {
