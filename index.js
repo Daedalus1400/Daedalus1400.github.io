@@ -62,12 +62,13 @@ function GenerateTestVehicle(fileName = "unnamed") {
 	vehicle.ItemDictionary[dictionary.metal.beam1x1.key] = dictionary.metal.beam1x1.hash;
 	vehicle.ItemDictionary[dictionary.lightAlloy.beam1x1.key] = dictionary.lightAlloy.beam1x1.hash;
 	vehicle.ItemDictionary[dictionary.heavyArmor.beam1x1.key] = dictionary.heavyArmor.beam1x1.hash;
-	PlaceBlock(vehicle, [0,0,0], dictionary.metal.beam1x1.key);
-	PlaceBlock(vehicle, [1,0,0], dictionary.metal.beam1x1.key);
-	PlaceBlock(vehicle, [2,0,0], dictionary.metal.beam1x1.key);
-	PlaceBlock(vehicle, [0,1,0], dictionary.metal.beam1x1.key);
-	PlaceBlock(vehicle, [1,1,0], dictionary.metal.beam1x1.key);
-	PlaceBlock(vehicle, [2,1,0], dictionary.metal.beam1x1.key);
+	var length = document.getElementById("lengthInput").value;
+	var beam = document.getElementById("beamInput").value;
+	for (let x = 0; x < beam; x++) {
+		for (let z = 0; z < length; z++) {
+			PlaceBlock(vehicle, [x,0,z], dictionary.metal.beam1x1.key);
+		}
+	}
 	SetBlueprintExtents(vehicle);
 	SaveBlueprint(vehicle);
 }
