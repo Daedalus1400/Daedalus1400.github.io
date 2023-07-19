@@ -64,11 +64,46 @@ function GenerateTestVehicle(fileName = "unnamed") {
 	vehicle.ItemDictionary[dictionary.heavyArmor.beam1x1.key] = dictionary.heavyArmor.beam1x1.hash;
 	var length = document.getElementById("lengthInput").value;
 	var beam = document.getElementById("beamInput").value;
-	for (let x = 0; x < beam; x++) {
-		for (let z = 0; z < length; z++) {
-			PlaceBlock(vehicle, [x,0,z], dictionary.metal.beam1x1.key);
+
+	for (let z = 0; z < length; z++) {
+		for (let x = 0; x < beam / 2; x++) {
+			PlaceBlock(vehicle, [x, 0, z], dictionary.lightAlloy.beam1x1.key);
+			if (x > 0) {
+				PlaceBlock(vehicle, [-x, 0, z], dictionary.lightAlloy.beam1x1.key);
+			}
 		}
 	}
+
+	var foreShape = document.getElementById("foreStyleSelector").value;
+	if (foreShape == "sloped") {
+		var foreSlope = document.getElementById("foreSlopeInput").value;
+		var foreLength = foreSlope * beam / 2;
+		for (let z = length; z < length + foreLength; z++) {
+			var slopeStop = (foreLength - (z - length)) / foreSlope;
+			for (let x = 0; x < slopeStop; x++) {
+				PlaceBlock(vehicle, [x, 0, z], dictionary.lightAlloy.beam1x1.key);
+				if (x > 0) {
+					PlaceBlock(vehicle, [-x, 0, z], dictionary.lightAlloy.beam1x1.key);
+				}
+			}
+		}
+	} 
+
+	var aftShape = document.getElementById("aftStyleSelector").value;
+	if (aftShape == "sloped") {
+		var aftSlope = document.getElementById("aftSlopeInput").value;
+		var aftLength = aftSlope * beam / 2; // Magnitude
+		for (let z = -1; z > -aftLength; z--) {
+			var slopeStop = (aftLength + z) / aftSlope;
+			for (let x = 0; x < slopeStop; x++) {
+				PlaceBlock(vehicle, [x, 0, z], dictionary.lightAlloy.beam1x1.key);
+				if (x > 0) {
+					PlaceBlock(vehicle, [-x, 0, z], dictionary.lightAlloy.beam1x1.key);
+				}
+			}
+		}
+	} 
+
 	SetBlueprintExtents(vehicle);
 	SaveBlueprint(vehicle);
 }
