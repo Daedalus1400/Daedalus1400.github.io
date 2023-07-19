@@ -1,15 +1,44 @@
 <!DOCTYPE html>
 <title>FTD Hull Designer</title>
+<head>
+	<link rel="stylesheet" type="text/css" href="index.css">
+</head>
 <body>
 	<label for="fileNameInput">Name:</label>
 	<textarea id="fileNameInput" name="fileNameInput" rows="1" cols="25">unnamed</textarea>
 	<button type="button" onclick="GenerateBlueprint()">Generate and Download Blueprint</button>
-	<br>
-	<br>
-	<label for="lengthInput">Length:</label>
-	<input type="number" id="lengthInput" name="lengthInput" value="100" />
-	<label for="beamInput">Beam:</label>
-	<input type="number" id="beamInput" name="beamInput" value="25"/>
+
+	<hr class="solid">
+
+	<div id="optionsDiv">
+		<h2>Internal Dimensions</h2>
+		<label for="lengthInput">Length:</label>
+		<input type="number" class="numInput" id="lengthInput" name="lengthInput" value="100" />
+		<label for="beamInput">Beam:</label>
+		<input type="number" class="numInput" id="beamInput" name="beamInput" value="25"/>
+
+		<hr class="solid">
+
+		<h2>Fore Shape</h2>
+		<label for="foreStyleSelector">Style</label>
+		<select name="foreStyleSelector" id="foreStyleSelector" onchange="ForeStyleChanged(this.value)">
+			<option value="transom">Transom</option>
+			<option value="sloped">Sloped</option>
+		</select>
+		<input type="number" class="shortInput" name="foreSlopeInput" id="foreSlopeInput" value = 2 onchange="LimitSlope(this)" />
+
+		<hr class="solid">
+
+		<h2>Aft Shape</h2>
+
+		<label for="aftStyleSelector">Style</label>
+		<select name="aftStyleSelector" id="aftStyleSelector" onchange="AftStyleChanged(this.value)">
+			<option value="transom">Transom</option>
+			<option value="sloped">Sloped</option>
+		</select>
+		<input type="number" class="shortInput" name="aftSlopeInput" id="aftSlopeInput" value = 2 onchange="LimitSlope(this)" />
+	</div>
 </body>
 
 <script type="text/javascript" src="index.js"></script>
+<script type="text/javascript" src="ui.js"></script>
