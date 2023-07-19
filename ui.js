@@ -1,3 +1,11 @@
+function LimitSlope(element) {
+	if (element.value > 4) {
+		element.value = 4;
+	} else if (element.value < 1) {
+		element.value = 1;
+	}
+}
+
 // Fore options UI
 
 function ForeStyleChanged(value) {
@@ -5,14 +13,6 @@ function ForeStyleChanged(value) {
 		document.getElementById('foreSlopeInput').disabled = false;
 	} else {
 		document.getElementById('foreSlopeInput').disabled = true;
-	}
-}
-
-function LimitSlope(element) {
-	if (element.value > 4) {
-		element.value = 4;
-	} else if (element.value < 1) {
-		element.value = 1;
 	}
 }
 
