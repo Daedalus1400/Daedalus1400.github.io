@@ -111,31 +111,62 @@ function GenerateHull() {
 	return vehicle;
 }
 
-function GenerateBlueprintFromArray(array, blueprint) {
+function BeamifyArray(array) {
 	for (let x = minX; x <= maxX; x++) {
 
-		let value = array[x];
-		if (value == null) {
+		let valueX = array[x];
+		if (valueX == null) {
 			continue
 		} 
 
 		for (let y = minY; y <= maxY; y++) {
 
-			value = value[y];
-			if (value == null) {
+			let valueY = valueX[y];
+			if (valueY == null) {
 				continue
 			} 
 
 			for (let z = minZ; z <= maxZ; z++) {
 
-				value = value[z];
-				if (value == null) {
+				let valueZ = valueY[z];
+				if (valueZ == null) {
 					continue
 				} 
 
 
-				if (value != null && value != -1 && value != 0) {
-					PlaceBlockInBlueprint(blueprint, [x, y, z], dictionary[value.mat][value.shape].key, value.rotation);
+				if (valueZ != null && valueZ != -1 && valueZ != 0) {
+					PlaceBlockInBlueprint(blueprint, [x, y, z], dictionary[valueZ.mat][valueZ.shape].key, valueZ.rotation);
+				}
+			}
+		}
+	}
+}
+
+function GenerateBlueprintFromArray(array, blueprint) {
+	for (let x = minX; x <= maxX; x++) {
+
+		let valueX = array[x];
+		if (valueX == null) {
+			continue
+		} 
+
+		for (let y = minY; y <= maxY; y++) {
+
+			let valueY = valueX[y];
+			if (valueY == null) {
+				continue
+			} 
+
+			for (let z = minZ; z <= maxZ; z++) {
+
+				let valueZ = valueY[z];
+				if (valueZ == null) {
+					continue
+				} 
+
+
+				if (valueZ != null && valueZ != -1 && valueZ != 0) {
+					PlaceBlockInBlueprint(blueprint, [x, y, z], dictionary[valueZ.mat][valueZ.shape].key, valueZ.rotation);
 				}
 			}
 		}
