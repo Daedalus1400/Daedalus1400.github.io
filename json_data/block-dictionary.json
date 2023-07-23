@@ -3,7 +3,23 @@
 		"metal": {
 			"beam1x1": {
 				"key":"564",
-				"hash":"ab699540-efc8-4592-bc97-204f6a874b3a"
+				"hash":"ab699540-efc8-4592-bc97-204f6a874b3a",
+				"cost":5
+			},
+			"beam1x2": {
+				"key":"564",
+				"hash":"ab699540-efc8-4592-bc97-204f6a874b3a",
+				"cost":10
+			},
+			"beam1x3": {
+				"key":"564",
+				"hash":"ab699540-efc8-4592-bc97-204f6a874b3a",
+				"cost":15
+			},
+			"beam1x4": {
+				"key":"564",
+				"hash":"ab699540-efc8-4592-bc97-204f6a874b3a",
+				"cost":20
 			}
 		},
 		"lightAlloy": {

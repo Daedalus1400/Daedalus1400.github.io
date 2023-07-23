@@ -25,7 +25,7 @@ function GenerateBlueprint() {
 	maxZ = 0;
 	minZ = 0;
 	var fileName = document.getElementById("fileNameInput").value;
-	GenerateTestVehicle(fileName);
+	var vehicle = GenerateHull(fileName);
 }
 
 function LoadTemplateAndDictionary() {
@@ -55,7 +55,7 @@ function LoadDictionaryCallback(dictionaryJSON) {
 	}
 }
 
-function GenerateTestVehicle(fileName = "unnamed") {
+function GenerateHull(fileName = "unnamed") {
 	var vehicle = JSON.parse(JSON.stringify(template));
 	vehicle.Name = fileName;
 	vehicle.Blueprint.blueprintName = fileName;
@@ -67,48 +67,48 @@ function GenerateTestVehicle(fileName = "unnamed") {
 
 	for (let z = 0; z < length; z++) {
 		for (let x = 0; x < beam / 2; x++) {
-			PlaceBlock(vehicle, [x, 0, z], dictionary.lightAlloy.beam1x1.key);
+			PlaceBlockInBlueprint(vehicle, [x, 0, z], dictionary.lightAlloy.beam1x1.key);
 			if (x > 0) {
-				PlaceBlock(vehicle, [-x, 0, z], dictionary.lightAlloy.beam1x1.key);
+				PlaceBlockInBlueprint(vehicle, [-x, 0, z], dictionary.lightAlloy.beam1x1.key);
 			}
 		}
 	}
 
-	var foreShape = document.getElementById("foreStyleSelector").value;
-	if (foreShape == "sloped") {
-		var foreSlope = document.getElementById("foreSlopeInput").value;
-		var foreLength = foreSlope * beam / 2;
-		for (let z = length; z < length + foreLength; z++) {
-			var slopeStop = (foreLength - (z - length)) / foreSlope;
+	var bowShape = document.getElementById("bowStyleSelector").value;
+	if (bowShape == "sloped") {
+		var bowSlope = document.getElementById("bowSlopeInput").value;
+		var bowLength = bowSlope * beam / 2;
+		for (let z = length; z < length + bowLength; z++) {
+			var slopeStop = (bowLength - (z - length)) / bowSlope;
 			for (let x = 0; x < slopeStop; x++) {
-				PlaceBlock(vehicle, [x, 0, z], dictionary.lightAlloy.beam1x1.key);
+				PlaceBlockInBlueprint(vehicle, [x, 0, z], dictionary.lightAlloy.beam1x1.key);
 				if (x > 0) {
-					PlaceBlock(vehicle, [-x, 0, z], dictionary.lightAlloy.beam1x1.key);
+					PlaceBlockInBlueprint(vehicle, [-x, 0, z], dictionary.lightAlloy.beam1x1.key);
 				}
 			}
 		}
 	} 
 
-	var aftShape = document.getElementById("aftStyleSelector").value;
-	if (aftShape == "sloped") {
-		var aftSlope = document.getElementById("aftSlopeInput").value;
-		var aftLength = aftSlope * beam / 2; // Magnitude
-		for (let z = -1; z > -aftLength; z--) {
-			var slopeStop = (aftLength + z) / aftSlope;
+	var sternShape = document.getElementById("sternStyleSelector").value;
+	if (sternShape == "sloped") {
+		var sternSlope = document.getElementById("sternSlopeInput").value;
+		var sternLength = sternSlope * beam / 2; // Magnitude
+		for (let z = -1; z > -sternLength; z--) {
+			var slopeStop = (sternLength + z) / sternSlope;
 			for (let x = 0; x < slopeStop; x++) {
-				PlaceBlock(vehicle, [x, 0, z], dictionary.lightAlloy.beam1x1.key);
+				PlaceBlockInBlueprint(vehicle, [x, 0, z], dictionary.lightAlloy.beam1x1.key);
 				if (x > 0) {
-					PlaceBlock(vehicle, [-x, 0, z], dictionary.lightAlloy.beam1x1.key);
+					PlaceBlockInBlueprint(vehicle, [-x, 0, z], dictionary.lightAlloy.beam1x1.key);
 				}
 			}
 		}
 	} 
 
-	SetBlueprintExtents(vehicle);
-	SaveBlueprint(vehicle);
+	return vehicle;
 }
 
 function SaveBlueprint(blueprintJSON) {
+	SetBlueprintExtents(blueprintJSON);
 	var file = new Blob([JSON.stringify(blueprintJSON)], {type: "application/json",})
 	var fileName = String(blueprintJSON.Name + ".blueprint")
 	if (window.navigator.msSaveOrOpenBlob) {
@@ -127,15 +127,8 @@ function SaveBlueprint(blueprintJSON) {
 	}
 }
 
-function PlaceBlock(blueprint, position, blockType, rotation = 0, color = 0) {
-	blueprint.Blueprint.BLP.push(String(position[0] + "," + position[1] + "," + position[2]));
-	blueprint.Blueprint.BCI.push(color);
-	blueprint.Blueprint.BLR.push(rotation);
-	blueprint.Blueprint.BlockIds.push(Number(blockType));
-	blueprint.Blueprint.AliveCount += 1;
-	blueprint.Blueprint.BlockCount += 1;
-	blueprint.Blueprint.TotalBlockCount += 1;
-	blueprint.SavedTotalBlockCount += 1;
+function PlaceBlockInArray(array, position, material, shape = "beam1x1", rotation = 0) {
+	array[position[0]][position[1]][position[2]] = {"mat":material, "shape":shape, "rot":rotation};
 
 	if (position[0] < minX) {
 		minX = position[0];
@@ -156,9 +149,44 @@ function PlaceBlock(blueprint, position, blockType, rotation = 0, color = 0) {
 	}
 }
 
+function GenerateBlueprintFromArray(array, blueprint) {
+	for (let x = minX; x <= maxX; x++) {
+		for (let y = minY; y <= maxY; y++) {
+			for (let z = minZ; z <= maxZ; z++) {
+				let value = array[x][y][z]
+				if (value != null && value != -1) {
+					PlaceBlockInBlueprint(blueprint, [x, y, z], dictionary[value.mat][value.shape], value.rotation);
+				}
+			}
+		}
+	}
+}
+
+function PlaceBlockInBlueprint(blueprint, position, blockType, rotation = 0, color = 0) {
+	blueprint.Blueprint.BLP.push(String(position[0] + "," + position[1] + "," + position[2]));
+	blueprint.Blueprint.BCI.push(color);
+	blueprint.Blueprint.BLR.push(rotation);
+	blueprint.Blueprint.BlockIds.push(Number(blockType));
+	blueprint.Blueprint.AliveCount += 1;
+	blueprint.Blueprint.BlockCount += 1;
+	blueprint.Blueprint.TotalBlockCount += 1;
+	blueprint.SavedTotalBlockCount += 1;
+}
+
 function SetBlueprintExtents(blueprint) {
 	
 	blueprint.Blueprint.MaxCords = String(maxX + "," + maxY + "," + maxZ);
 	blueprint.Blueprint.MinCords = String(minX + "," + minY + "," + minZ);
 	
 }
+
+// function ArrayTest() {
+// 	var array = [[[]]];
+// 	array[0][0][0] = {"mat":"metal", "rot":0, "shape":"beam1x1"};
+// 	array[0][0][2] = {"mat":"lightAlloy", "rot":0, "shape":"beam1x1"};
+// 	for (let i = 0; i < 3; i++) {
+// 		if (array[0][0][i] != null) {
+// 			console.log(array[0][0][i]);
+// 		}
+// 	}
+// }

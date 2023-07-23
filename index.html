@@ -19,24 +19,24 @@
 
 		<hr class="solid">
 
-		<h2>Fore Shape</h2>
-		<label for="foreStyleSelector">Style:</label>
-		<select name="foreStyleSelector" id="foreStyleSelector" onchange="ForeStyleChanged(this.value)">
+		<h2>Bow Shape</h2>
+		<label for="bowStyleSelector">Style:</label>
+		<select name="bowStyleSelector" id="bowStyleSelector" onchange="BowStyleChanged(this.value)">
 			<option value="transom">Transom</option>
 			<option value="sloped">Sloped</option>
 		</select>
-		<input type="number" class="shortInput" name="foreSlopeInput" id="foreSlopeInput" value = 2 onchange="LimitSlope(this)" disabled />
+		<input type="number" class="shortInput" name="bowSlopeInput" id="bowSlopeInput" value = 2 onchange="LimitSlope(this)" disabled />
 
 		<hr class="solid">
 
 		<h2>Aft Shape</h2>
 
-		<label for="aftStyleSelector">Style:</label>
-		<select name="aftStyleSelector" id="aftStyleSelector" onchange="AftStyleChanged(this.value)">
+		<label for="sternStyleSelector">Style:</label>
+		<select name="sternStyleSelector" id="sternStyleSelector" onchange="SternStyleChanged(this.value)">
 			<option value="transom">Transom</option>
 			<option value="sloped">Sloped</option>
 		</select>
-		<input type="number" class="shortInput" name="aftSlopeInput" id="aftSlopeInput" value = 2 onchange="LimitSlope(this)" disabled />
+		<input type="number" class="shortInput" name="sternSlopeInput" id="sternSlopeInput" value = 2 onchange="LimitSlope(this)" disabled />
 	</div>
 </body>
 
