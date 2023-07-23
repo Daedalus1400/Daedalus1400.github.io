@@ -6,22 +6,22 @@ function LimitSlope(element) {
 	}
 }
 
-// Fore options UI
+// Bow options UI
 
-function ForeStyleChanged(value) {
+function BowStyleChanged(value) {
 	if (value == "sloped") {
-		document.getElementById('foreSlopeInput').disabled = false;
+		document.getElementById('bowSlopeInput').disabled = false;
 	} else {
-		document.getElementById('foreSlopeInput').disabled = true;
+		document.getElementById('bowSlopeInput').disabled = true;
 	}
 }
 
-// Aft options UI
+// Stern options UI
 
-function AftStyleChanged(value) {
+function SternStyleChanged(value) {
 	if (value == "sloped") {
-		document.getElementById('aftSlopeInput').disabled = false;
+		document.getElementById('sternSlopeInput').disabled = false;
 	} else {
-		document.getElementById('aftSlopeInput').disabled = true;
+		document.getElementById('sternSlopeInput').disabled = true;
 	}
 }
