@@ -17,4 +17,10 @@ if __name__ == '__main__':
 			PORT += 1
 
 	print("serving at port", PORT)
-	httpd.serve_forever()
+	try:
+		httpd.serve_forever()
+	except KeyboardInterrupt as e:
+		print(" ")
+		print("Interrupt recieved, shutting down gracefully")
+		httpd.shutdown()
+	
