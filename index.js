@@ -26,6 +26,7 @@ function GenerateBlueprint() {
 	minZ = 0;
 	var fileName = document.getElementById("fileNameInput").value;
 	var vehicleArray = GenerateHull();
+	BeamifyArray(vehicleArray);
 	var blueprint = JSON.parse(JSON.stringify(template));
 	GenerateBlueprintFromArray(vehicleArray, blueprint);
 	SaveBlueprint(blueprint, fileName);
@@ -126,16 +127,28 @@ function BeamifyArray(array) {
 				continue
 			} 
 
+			let position = [x, y, 0];
+			let material = null;
+
 			for (let z = minZ; z <= maxZ; z++) {
 
 				let valueZ = valueY[z];
-				if (valueZ == null) {
+				if (valueZ == null && material == null) {
 					continue
 				} 
 
+				if (valueZ != null && valueZ != -1 && valueZ != 0 && material == null) {
+					position[2] = z;
+					material = valueZ.mat;
+				} else if (material != null && (valueZ == null || valueZ == 0 || z - position[2] >= 4 || valueZ.mat != material)) {
+					let size = z - position[2];
+					PlaceBlockInArray(array, position, material, "beam1x" + String(size));
+					for (let i = position[2] + 1; i < z; i++) {
+						PlaceBlockInArray(array, [position[0], position[1], i], -1);
+					}
 
-				if (valueZ != null && valueZ != -1 && valueZ != 0) {
-					PlaceBlockInBlueprint(blueprint, [x, y, z], dictionary[valueZ.mat][valueZ.shape].key, valueZ.rotation);
+					material = null;
+					z--;
 				}
 			}
 		}
