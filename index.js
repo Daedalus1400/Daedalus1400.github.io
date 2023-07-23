@@ -131,13 +131,23 @@ function SaveBlueprint(blueprintJSON, fileName = "unnamed") {
 }
 
 function PlaceBlockInArray(array, position, material, shape = "beam1x1", rotation = 0) {
+
 	if (array[position[0]] == null) {
+
 		array[position[0]] = new Array();
 		array[position[0]][position[1]] = new Array();
+
 	} else if (array[position[0]][position[1]] == null) {
+
 		array[position[0]][position[1]] = new Array();
+		
 	}
-	array[position[0]][position[1]][position[2]] = {"mat":material, "shape":shape, "rot":rotation};
+
+	if (material == -1) {
+		array[position[0]][position[1]][position[2]] = -1;
+	} else {
+		array[position[0]][position[1]][position[2]] = {"mat":material, "shape":shape, "rot":rotation};
+	}
 
 	if (position[0] < minX) {
 		minX = position[0];
