@@ -25,7 +25,10 @@ function GenerateBlueprint() {
 	maxZ = 0;
 	minZ = 0;
 	var fileName = document.getElementById("fileNameInput").value;
-	var vehicle = GenerateHull(fileName);
+	var vehicleArray = GenerateHull();
+	var blueprint = JSON.parse(JSON.stringify(template));
+	GenerateBlueprintFromArray(vehicleArray, blueprint);
+	SaveBlueprint(blueprint, fileName);
 }
 
 function LoadTemplateAndDictionary() {
@@ -55,21 +58,16 @@ function LoadDictionaryCallback(dictionaryJSON) {
 	}
 }
 
-function GenerateHull(fileName = "unnamed") {
-	var vehicle = JSON.parse(JSON.stringify(template));
-	vehicle.Name = fileName;
-	vehicle.Blueprint.blueprintName = fileName;
-	vehicle.ItemDictionary[dictionary.metal.beam1x1.key] = dictionary.metal.beam1x1.hash;
-	vehicle.ItemDictionary[dictionary.lightAlloy.beam1x1.key] = dictionary.lightAlloy.beam1x1.hash;
-	vehicle.ItemDictionary[dictionary.heavyArmor.beam1x1.key] = dictionary.heavyArmor.beam1x1.hash;
+function GenerateHull() {
+	var vehicle = [[[]]];
 	var length = document.getElementById("lengthInput").value;
 	var beam = document.getElementById("beamInput").value;
 
 	for (let z = 0; z < length; z++) {
 		for (let x = 0; x < beam / 2; x++) {
-			PlaceBlockInBlueprint(vehicle, [x, 0, z], dictionary.lightAlloy.beam1x1.key);
+			PlaceBlockInArray(vehicle, [x, 0, z], "lightAlloy");
 			if (x > 0) {
-				PlaceBlockInBlueprint(vehicle, [-x, 0, z], dictionary.lightAlloy.beam1x1.key);
+				PlaceBlockInArray(vehicle, [-x, 0, z], "lightAlloy");
 			}
 		}
 	}
@@ -81,9 +79,9 @@ function GenerateHull(fileName = "unnamed") {
 		for (let z = length; z < length + bowLength; z++) {
 			var slopeStop = (bowLength - (z - length)) / bowSlope;
 			for (let x = 0; x < slopeStop; x++) {
-				PlaceBlockInBlueprint(vehicle, [x, 0, z], dictionary.lightAlloy.beam1x1.key);
+				PlaceBlockInArray(vehicle, [x, 0, z], "lightAlloy");
 				if (x > 0) {
-					PlaceBlockInBlueprint(vehicle, [-x, 0, z], dictionary.lightAlloy.beam1x1.key);
+					PlaceBlockInArray(vehicle, [-x, 0, z], "lightAlloy");
 				}
 			}
 		}
@@ -96,9 +94,9 @@ function GenerateHull(fileName = "unnamed") {
 		for (let z = -1; z > -sternLength; z--) {
 			var slopeStop = (sternLength + z) / sternSlope;
 			for (let x = 0; x < slopeStop; x++) {
-				PlaceBlockInBlueprint(vehicle, [x, 0, z], dictionary.lightAlloy.beam1x1.key);
+				PlaceBlockInArray(vehicle, [x, 0, z], "lightAlloy");
 				if (x > 0) {
-					PlaceBlockInBlueprint(vehicle, [-x, 0, z], dictionary.lightAlloy.beam1x1.key);
+					PlaceBlockInArray(vehicle, [-x, 0, z], "lightAlloy");
 				}
 			}
 		}
@@ -107,8 +105,13 @@ function GenerateHull(fileName = "unnamed") {
 	return vehicle;
 }
 
-function SaveBlueprint(blueprintJSON) {
+function SaveBlueprint(blueprintJSON, fileName = "unnamed") {
 	SetBlueprintExtents(blueprintJSON);
+	blueprintJSON.Name = fileName;
+	blueprintJSON.Blueprint.blueprintName = fileName;
+	blueprintJSON.ItemDictionary[dictionary.metal.beam1x1.key] = dictionary.metal.beam1x1.hash;
+	blueprintJSON.ItemDictionary[dictionary.lightAlloy.beam1x1.key] = dictionary.lightAlloy.beam1x1.hash;
+	blueprintJSON.ItemDictionary[dictionary.heavyArmor.beam1x1.key] = dictionary.heavyArmor.beam1x1.hash;
 	var file = new Blob([JSON.stringify(blueprintJSON)], {type: "application/json",})
 	var fileName = String(blueprintJSON.Name + ".blueprint")
 	if (window.navigator.msSaveOrOpenBlob) {
@@ -128,6 +131,12 @@ function SaveBlueprint(blueprintJSON) {
 }
 
 function PlaceBlockInArray(array, position, material, shape = "beam1x1", rotation = 0) {
+	if (array[position[0]] == null) {
+		array[position[0]] = new Array();
+		array[position[0]][position[1]] = new Array();
+	} else if (array[position[0]][position[1]] == null) {
+		array[position[0]][position[1]] = new Array();
+	}
 	array[position[0]][position[1]][position[2]] = {"mat":material, "shape":shape, "rot":rotation};
 
 	if (position[0] < minX) {
@@ -153,9 +162,22 @@ function GenerateBlueprintFromArray(array, blueprint) {
 	for (let x = minX; x <= maxX; x++) {
 		for (let y = minY; y <= maxY; y++) {
 			for (let z = minZ; z <= maxZ; z++) {
-				let value = array[x][y][z]
+
+				let value = array[x];
+				if (value != null) {
+					value = value[y];
+				} else {
+					continue;
+				}
+
+				if (value != null) {
+					value = value[z];
+				} else {
+					continue;
+				}
+
 				if (value != null && value != -1) {
-					PlaceBlockInBlueprint(blueprint, [x, y, z], dictionary[value.mat][value.shape], value.rotation);
+					PlaceBlockInBlueprint(blueprint, [x, y, z], dictionary[value.mat][value.shape].key, value.rotation);
 				}
 			}
 		}
@@ -179,14 +201,3 @@ function SetBlueprintExtents(blueprint) {
 	blueprint.Blueprint.MinCords = String(minX + "," + minY + "," + minZ);
 	
 }
-
-// function ArrayTest() {
-// 	var array = [[[]]];
-// 	array[0][0][0] = {"mat":"metal", "rot":0, "shape":"beam1x1"};
-// 	array[0][0][2] = {"mat":"lightAlloy", "rot":0, "shape":"beam1x1"};
-// 	for (let i = 0; i < 3; i++) {
-// 		if (array[0][0][i] != null) {
-// 			console.log(array[0][0][i]);
-// 		}
-// 	}
-// }
