@@ -47,6 +47,9 @@ function LoadTemplateCallback(templateJSON) {
 		console.log("Error loading blueprint template");
 	} else {
 		template = templateJSON;
+		if (dictionary != null) {
+			document.getElementById("generateButton").removeAttribute("disabled");
+		}
 	}
 }
 
@@ -55,6 +58,9 @@ function LoadDictionaryCallback(dictionaryJSON) {
 		console.log("Error loading block dictionary");
 	} else {
 		dictionary = dictionaryJSON.blockDictionary;
+		if (template != null) {
+			document.getElementById("generateButton").removeAttribute("disabled");
+		}
 	}
 }
 
