@@ -170,21 +170,26 @@ function PlaceBlockInArray(array, position, material, shape = "beam1x1", rotatio
 
 function GenerateBlueprintFromArray(array, blueprint) {
 	for (let x = minX; x <= maxX; x++) {
+
+		let value = array[x];
+		if (value == null) {
+			continue
+		} 
+
 		for (let y = minY; y <= maxY; y++) {
+
+			value = value[y];
+			if (value == null) {
+				continue
+			} 
+
 			for (let z = minZ; z <= maxZ; z++) {
 
-				let value = array[x];
-				if (value != null) {
-					value = value[y];
-				} else {
-					continue;
-				}
+				value = value[z];
+				if (value == null) {
+					continue
+				} 
 
-				if (value != null) {
-					value = value[z];
-				} else {
-					continue;
-				}
 
 				if (value != null && value != -1 && value != 0) {
 					PlaceBlockInBlueprint(blueprint, [x, y, z], dictionary[value.mat][value.shape].key, value.rotation);
