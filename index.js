@@ -140,11 +140,11 @@ function PlaceBlockInArray(array, position, material, shape = "beam1x1", rotatio
 	} else if (array[position[0]][position[1]] == null) {
 
 		array[position[0]][position[1]] = new Array();
-		
+
 	}
 
-	if (material == -1) {
-		array[position[0]][position[1]][position[2]] = -1;
+	if (material == -1 || material == 0) {
+		array[position[0]][position[1]][position[2]] = material;
 	} else {
 		array[position[0]][position[1]][position[2]] = {"mat":material, "shape":shape, "rot":rotation};
 	}
@@ -186,7 +186,7 @@ function GenerateBlueprintFromArray(array, blueprint) {
 					continue;
 				}
 
-				if (value != null && value != -1) {
+				if (value != null && value != -1 && value != 0) {
 					PlaceBlockInBlueprint(blueprint, [x, y, z], dictionary[value.mat][value.shape].key, value.rotation);
 				}
 			}
