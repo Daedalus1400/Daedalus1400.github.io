@@ -1,37 +1,223 @@
 {
 	"blockDictionary":{
-		"metal": {
+		"wood": {
 			"beam1x1": {
-				"key":"564",
-				"hash":"ab699540-efc8-4592-bc97-204f6a874b3a",
-				"cost":5
+				"key":"614",
+				"hash":"9a0ae372-beb4-4009-b14e-36ed0715af73",
+				"cost":1
 			},
 			"beam1x2": {
-				"key":"564",
-				"hash":"ab699540-efc8-4592-bc97-204f6a874b3a",
-				"cost":10
+				"key":"1699",
+				"hash":"de36c624-8c78-4b52-8d86-431cec16a306",
+				"cost":2
 			},
 			"beam1x3": {
-				"key":"564",
-				"hash":"ab699540-efc8-4592-bc97-204f6a874b3a",
-				"cost":15
+				"key":"1700",
+				"hash":"39553630-8281-40e4-96fb-b01c1f3537e6",
+				"cost":3
 			},
 			"beam1x4": {
-				"key":"564",
-				"hash":"ab699540-efc8-4592-bc97-204f6a874b3a",
-				"cost":20
+				"key":"1701",
+				"hash":"05475442-0e52-4e0b-9fbb-2715f0e54f97",
+				"cost":4
+			}
+		},
+		"stone": {
+			"beam1x1": {
+				"key":"612",
+				"hash":"710ee212-563b-42f8-acd1-57515479524d",
+				"cost":2
+			},
+			"beam1x2": {
+				"key":"1592",
+				"hash":"6cd6c6bd-da8b-483f-ace2-fa427a07d91a",
+				"cost":4
+			},
+			"beam1x3": {
+				"key":"1593",
+				"hash":"d47815a1-9052-4885-8d17-8c9cb3eab72b",
+				"cost":6
+			},
+			"beam1x4": {
+				"key":"1594",
+				"hash":"c7a19161-b361-4074-8c51-2398a0a70d1b",
+				"cost":8
 			}
 		},
 		"lightAlloy": {
 			"beam1x1": {
-				"key":"563",
-				"hash":"3cc75979-18ac-46c4-9a5b-25b327d99410"
+				"key":"608",
+				"hash":"3cc75979-18ac-46c4-9a5b-25b327d99410",
+				"cost":5
+			},
+			"beam1x2": {
+				"key":"1061",
+				"hash":"8f9dbf41-6c2d-4e7b-855d-b2432c6942a2",
+				"cost":10
+			},
+			"beam1x3": {
+				"key":"1062",
+				"hash":"649f2aec-6f59-4157-ac01-0122ce2e6dad",
+				"cost":15
+			},
+			"beam1x4": {
+				"key":"1063",
+				"hash":"9411e401-27da-4546-b805-3334f200f055",
+				"cost":20
+			}
+		},
+		"metal": {
+			"beam1x1": {
+				"key":"609",
+				"hash":"ab699540-efc8-4592-bc97-204f6a874b3a",
+				"cost":5
+			},
+			"beam1x2": {
+				"key":"1418",
+				"hash":"2a22f176-01c2-42f2-a7d2-2c7054504aa9",
+				"cost":10
+			},
+			"beam1x3": {
+				"key":"1419",
+				"hash":"46f54639-5f91-4731-93eb-e5c0a7460538",
+				"cost":15
+			},
+			"beam1x4": {
+				"key":"1420",
+				"hash":"a7f5d8de-4882-4111-9d01-436493e5b2d8",
+				"cost":20
 			}
 		},
 		"heavyArmor": {
 			"beam1x1": {
-				"key":"560",
-				"hash":"0c03433e-8947-4e7d-9dec-793526fe06d1"
+				"key":"605",
+				"hash":"0c03433e-8947-4e7d-9dec-793526fe06d1",
+				"cost":25
+			},
+			"beam1x2": {
+				"key":"1236",
+				"hash":"242e07fa-399f-4caa-bfc2-1b77bd2bd538",
+				"cost":50
+			},
+			"beam1x3": {
+				"key":"1237",
+				"hash":"49714981-369a-4158-aff6-e562ee5f98d5",
+				"cost":75
+			},
+			"beam1x4": {
+				"key":"1238",
+				"hash":"867cea4e-6ea4-4fe2-a4a1-b6230308f8f1",
+				"cost":100
+			}
+		},
+		"glass": {
+			"beam1x1": {
+				"key":"604",
+				"hash":"2d519ca8-1f12-4a8e-9340-aa6648b5e799",
+				"cost":3
+			},
+			"beam1x2": {
+				"key":"1144",
+				"hash":"aa355fd9-295c-43f3-9f11-7a781a9808b0",
+				"cost":6
+			},
+			"beam1x3": {
+				"key":"1145",
+				"hash":"049b9d0c-1cb3-4511-be7f-9fad6e0a607e",
+				"cost":9
+			},
+			"beam1x4": {
+				"key":"1146",
+				"hash":"395179c1-37a0-4250-851b-5bc19fd601b6",
+				"cost":12
+			}
+		},
+		"rubber": {
+			"beam1x1": {
+				"key":"611",
+				"hash":"6c0bab88-aa88-4825-9cf5-55df36aa12b8",
+				"cost":3
+			},
+			"beam1x2": {
+				"key":"1501",
+				"hash":"7e0913f6-9961-4697-b9cb-c87ca8b90dd7",
+				"cost":6
+			},
+			"beam1x3": {
+				"key":"1502",
+				"hash":"1fb9209d-f982-4326-847d-f276aef5dce2",
+				"cost":9
+			},
+			"beam1x4": {
+				"key":"1503",
+				"hash":"39cf32c0-8fde-4f01-9b68-977624fffe69",
+				"cost":12
+			}
+		},
+		"lead": {
+			"beam1x1": {
+				"key":"606",
+				"hash":"e71e6f97-fbe8-4bf5-9645-d15179ba0c17",
+				"cost":3
+			},
+			"beam1x2": {
+				"key":"1327",
+				"hash":"d5e50322-fbc0-4e09-bfab-050f431146a9",
+				"cost":6
+			},
+			"beam1x3": {
+				"key":"1328",
+				"hash":"19ee2ba3-9443-4a44-97fd-bad9b1443895",
+				"cost":9
+			},
+			"beam1x4": {
+				"key":"1329",
+				"hash":"f5d2db25-114e-473a-8313-96831ccd011e",
+				"cost":12
+			}
+		},
+		"decking": {
+			"beam1x1": {
+				"key":"414",
+				"hash":"2f7f61ae-79f1-4139-a790-3f2c26bda4e4",
+				"cost":2
+			},
+			"beam1x2": {
+				"key":"415",
+				"hash":"d92c5b73-d0fd-423e-98fc-76b1cd91b524",
+				"cost":4
+			},
+			"beam1x3": {
+				"key":"416",
+				"hash":"50bdd099-dd8d-43f8-b43d-dd14c60be096",
+				"cost":6
+			},
+			"beam1x4": {
+				"key":"417",
+				"hash":"6e2afb0f-97b6-4017-b14c-158146da6854",
+				"cost":8
+			}
+		},
+		"surgeProtector": {
+			"beam1x1": {
+				"key":"524",
+				"hash":"9a564782-3a07-472b-ae06-5a7dfd123e7d",
+				"cost":50
+			},
+			"beam1x2": {
+				"key":"525",
+				"hash":"c125728d-3952-44cd-939e-84f8290fbd9f",
+				"cost":100
+			},
+			"beam1x3": {
+				"key":"526",
+				"hash":"86fc7d73-2558-4dce-ad25-0825d2786063",
+				"cost":150
+			},
+			"beam1x4": {
+				"key":"527",
+				"hash":"ac2d906e-4ff2-47bf-a8a8-4381a50ad5bc",
+				"cost":200
 			}
 		}
 	}
