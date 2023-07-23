@@ -177,8 +177,13 @@ function GenerateBlueprintFromArray(array, blueprint) {
 					continue
 				} 
 
-
 				if (valueZ != null && valueZ != -1 && valueZ != 0) {
+					let key = dictionary[valueZ.mat][valueZ.shape].key;
+					let hash = dictionary[valueZ.mat][valueZ.shape].hash;
+
+					if (blueprint.ItemDictionary[key] == null) {
+						blueprint.ItemDictionary[key] = hash;
+					}
 					PlaceBlockInBlueprint(blueprint, [x, y, z], dictionary[valueZ.mat][valueZ.shape].key, valueZ.rotation);
 				}
 			}
