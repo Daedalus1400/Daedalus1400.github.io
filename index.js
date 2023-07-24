@@ -26,7 +26,7 @@ function GenerateBlueprint() {
 	minZ = 0;
 	var fileName = document.getElementById("fileNameInput").value;
 	var vehicleArray = GenerateHull();
-	BeamifyArray(vehicleArray);
+	BeamifyArray(vehicleArray, "z");
 	var blueprint = JSON.parse(JSON.stringify(template));
 	GenerateBlueprintFromArray(vehicleArray, blueprint);
 	SaveBlueprint(blueprint, fileName);
@@ -136,7 +136,105 @@ function FillOutArray(array) {
 
 function BeamifyArray(array, axis = "z") {
 
-	if (axis == "z") {
+	if (axis == "x") {
+		for (let z = minZ; z <= maxZ; z++) {
+			for (let y = minY; y <= maxY; y++) {
+	
+				let position = [0, y, z];
+				let material = null;
+	
+				for (let x = minX; x <= maxX; x++) {
+	
+					let value = array[x][y][z];
+	
+					if (value != -1 && value != 0 && material == null) {
+
+						position[0] = x;
+						material = value.mat;
+
+					} else if (material != null) {
+
+						let stopValue = null;
+						let size = x - position[0];
+
+						if (value == 0) {
+							stopValue = x - 1;
+							
+						} else if (value.mat != material) {
+							stopValue = x - 1;
+							x--;
+
+						} else if (size == 3) {
+							size = 4;
+							stopValue = x;
+
+						} else if (x == maxX) {
+							size = size + 1;
+							stopValue = x;
+						}
+
+						if (stopValue != null) {
+							PlaceBlockInArray(array, position, material, "beam1x" + String(size), 1);
+
+							for (let i = position[0] + 1; i <= stopValue; i++) {
+								PlaceBlockInArray(array, [i, position[1], position[2]], -1);
+							}
+							material = null;
+						}
+					}
+				}
+			}
+		}
+	} else if (axis == "y") {
+		for (let x = minX; x <= maxX; x++) {
+			for (let z = minZ; z <= maxZ; z++) {
+	
+				let position = [x, 0, z];
+				let material = null;
+	
+				for (let y = minY; y <= maxY; y++) {
+	
+					let value = array[x][y][z];
+	
+					if (value != -1 && value != 0 && material == null) {
+
+						position[1] = y;
+						material = value.mat;
+
+					} else if (material != null) {
+
+						let stopValue = null;
+						let size = y - position[1];
+
+						if (value == 0) {
+							stopValue = y - 1;
+							
+						} else if (value.mat != material) {
+							stopValue = y - 1;
+							y--;
+							
+						} else if (size == 3) {
+							size = 4;
+							stopValue = y;
+
+						} else if (y == maxY) {
+							size = size + 1;
+							stopValue = y;
+						}
+
+						if (stopValue != null) {
+							PlaceBlockInArray(array, position, material, "beam1x" + String(size), 10);
+
+							for (let i = position[1] + 1; i <= stopValue; i++) {
+								PlaceBlockInArray(array, [position[0], i, position[2]], -1);
+							}
+							material = null;
+						}
+					}
+				}
+			}
+		}
+	} else if (axis == "z") {
 		for (let x = minX; x <= maxX; x++) {
 			for (let y = minY; y <= maxY; y++) {
 	
@@ -148,17 +246,39 @@ function BeamifyArray(array, axis = "z") {
 					let value = array[x][y][z];
 	
 					if (value != -1 && value != 0 && material == null) {
+
 						position[2] = z;
 						material = value.mat;
-					} else if (material != null && (value == 0 || z - position[2] >= 4 || value.mat != material)) {
+
+					} else if (material != null) {
+
+						let stopValue = null;
 						let size = z - position[2];
-						PlaceBlockInArray(array, position, material, "beam1x" + String(size));
-						for (let i = position[2] + 1; i < z; i++) {
-							PlaceBlockInArray(array, [position[0], position[1], i], -1);
+
+						if (value == 0) {
+							stopValue = z - 1;
+							
+						} else if (value.mat != material) {
+							stopValue = z - 1;
+							z--;
+
+						} else if (size == 3) {
+							size = 4;
+							stopValue = z;
+
+						} else if (z == maxZ) {
+							size = size + 1;
+							stopValue = z;
 						}
-	
-						material = null;
-						z--;
+
+						if (stopValue != null) {
+							PlaceBlockInArray(array, position, material, "beam1x" + String(size));
+
+							for (let i = position[2] + 1; i <= stopValue; i++) {
+								PlaceBlockInArray(array, [position[0], position[1], i], -1);
+							}
+							material = null;
+						}
 					}
 				}
 			}
@@ -180,7 +300,7 @@ function GenerateBlueprintFromArray(array, blueprint) {
 					if (blueprint.ItemDictionary[key] == null) {
 						blueprint.ItemDictionary[key] = hash;
 					}
-					PlaceBlockInBlueprint(blueprint, [x, y, z], dictionary[value.mat][value.shape].key, value.rotation);
+					PlaceBlockInBlueprint(blueprint, [x, y, z], key, value.rot);
 				}
 			}
 		}
