@@ -107,48 +107,59 @@ function GenerateHull() {
 				}
 			}
 		}
-	} 
+	}
+
+	FillOutArray(vehicle);
 
 	return vehicle;
 }
 
-function BeamifyArray(array) {
+function FillOutArray(array) {
 	for (let x = minX; x <= maxX; x++) {
-
-		let valueX = array[x];
-		if (valueX == null) {
-			continue
-		} 
+		if (array[x] == null) {
+			array[x] = new Array();
+		}
 
 		for (let y = minY; y <= maxY; y++) {
-
-			let valueY = valueX[y];
-			if (valueY == null) {
-				continue
-			} 
-
-			let position = [x, y, 0];
-			let material = null;
+			if (array[x][y] == null) {
+				array[x][y] = new Array();
+			}
 
 			for (let z = minZ; z <= maxZ; z++) {
+				if (array[x][y][z] == null) {
+					array[x][y][z] = 0;
+				}
+			}
+		}
+	}
+}
 
-				let valueZ = valueY[z];
-				if (valueZ == null && material == null) {
-					continue
-				} 
+function BeamifyArray(array, axis = "z") {
 
-				if (valueZ != null && valueZ != -1 && valueZ != 0 && material == null) {
-					position[2] = z;
-					material = valueZ.mat;
-				} else if (material != null && (valueZ == null || valueZ == 0 || z - position[2] >= 4 || valueZ.mat != material)) {
-					let size = z - position[2];
-					PlaceBlockInArray(array, position, material, "beam1x" + String(size));
-					for (let i = position[2] + 1; i < z; i++) {
-						PlaceBlockInArray(array, [position[0], position[1], i], -1);
+	if (axis == "z") {
+		for (let x = minX; x <= maxX; x++) {
+			for (let y = minY; y <= maxY; y++) {
+	
+				let position = [x, y, 0];
+				let material = null;
+	
+				for (let z = minZ; z <= maxZ; z++) {
+	
+					let value = array[x][y][z];
+	
+					if (value != -1 && value != 0 && material == null) {
+						position[2] = z;
+						material = value.mat;
+					} else if (material != null && (value == 0 || z - position[2] >= 4 || value.mat != material)) {
+						let size = z - position[2];
+						PlaceBlockInArray(array, position, material, "beam1x" + String(size));
+						for (let i = position[2] + 1; i < z; i++) {
+							PlaceBlockInArray(array, [position[0], position[1], i], -1);
+						}
+	
+						material = null;
+						z--;
 					}
-
-					material = null;
-					z--;
 				}
 			}
 		}
@@ -157,34 +168,19 @@ function BeamifyArray(array) {
 
 function GenerateBlueprintFromArray(array, blueprint) {
 	for (let x = minX; x <= maxX; x++) {
-
-		let valueX = array[x];
-		if (valueX == null) {
-			continue
-		} 
-
 		for (let y = minY; y <= maxY; y++) {
-
-			let valueY = valueX[y];
-			if (valueY == null) {
-				continue
-			} 
-
 			for (let z = minZ; z <= maxZ; z++) {
 
-				let valueZ = valueY[z];
-				if (valueZ == null) {
-					continue
-				} 
+				let value = array[x][y][z];
 
-				if (valueZ != null && valueZ != -1 && valueZ != 0) {
-					let key = dictionary[valueZ.mat][valueZ.shape].key;
-					let hash = dictionary[valueZ.mat][valueZ.shape].hash;
+				if (value != -1 && value != 0) {
+					let key = dictionary[value.mat][value.shape].key;
+					let hash = dictionary[value.mat][value.shape].hash;
 
 					if (blueprint.ItemDictionary[key] == null) {
 						blueprint.ItemDictionary[key] = hash;
 					}
-					PlaceBlockInBlueprint(blueprint, [x, y, z], dictionary[valueZ.mat][valueZ.shape].key, valueZ.rotation);
+					PlaceBlockInBlueprint(blueprint, [x, y, z], dictionary[value.mat][value.shape].key, value.rotation);
 				}
 			}
 		}
